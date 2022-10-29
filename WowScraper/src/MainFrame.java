@@ -40,15 +40,26 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                // Create table model for table1
                 DefaultTableModel tableModel = new DefaultTableModel();
 
-                int[] ranks = new int[100];
-                int[] ratings = new int[100];
-                String[] names = new String[100];
-                int[] levels = new int[100];
-                String[] specs = new String[100];
-                String[] wowClasses = new String[100];
-                String[] realms = new String[100];
+                // Create array of names to be used for columns
+                String[] columnNames = new String[7];
+                columnNames[0] = "Rank";
+                columnNames[1] = "Rating";
+                columnNames[2] = "Name";
+                columnNames[3] = "Level";
+                columnNames[4] = "Spec";
+                columnNames[5] = "Class";
+                columnNames[6] = "Realm";
+
+
+                // Add columns
+                for (int i=0; i<7; i++) {
+                    tableModel.addColumn(columnNames[i]);
+                }
+
+                // Create array for adding row to table
                 Object rowData[] = new Object[7];
 
                 for (int i=0; i<100; i++) {
@@ -60,22 +71,12 @@ public class MainFrame extends JFrame {
                     rowData[5] = players[i].getWowClass();
                     rowData[6] = players[i].getRealm();
                     tableModel.addRow(rowData);
-                    System.out.println(rowData[2]);
-                    //System.out.println(rowData);
                 }
-
-                /*tableModel.addColumn(ranks);
-                tableModel.addColumn(ratings);
-                tableModel.addColumn(names);
-                tableModel.addColumn(levels);
-                tableModel.addColumn(specs);
-                tableModel.addColumn(wowClasses);
-                tableModel.addColumn(realms);*/
 
                 System.out.println(tableModel.getRowCount());
                 System.out.println(tableModel.getColumnCount());
                 testLabel.setText("Working");
-                table1 = new JTable(tableModel);
+                table1.setModel(tableModel);
             }
         });
     }
