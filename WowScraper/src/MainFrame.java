@@ -17,6 +17,7 @@ public class MainFrame extends JFrame {
     private JTable table1;
     private JButton loadButton;
     private JLabel testLabel;
+    private JButton mainMenuButton;
     private JLabel TestLabel;
     private JButton avgButton;
     public static Player[] players = new Player[100];
@@ -112,6 +113,13 @@ public class MainFrame extends JFrame {
                 table1.setModel(tableModel);
             }
         });
+
+        mainMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                MainMenu frame = new MainMenu();
+            }
+        } );
     }
 
 
