@@ -40,6 +40,41 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
+                final String url = "https://worldofwarcraft.com/en-us/game/pvp/leaderboards/3v3";
+
+                String[] names = new String[100];
+                int numPlayers = 0;
+                try {
+                    // get raw html document
+                    final Document document = Jsoup.connect(url).get();
+                    // int to skip random data I dont want
+                    int counter = 0;
+                    for (Element row : document.select(
+
+                            // get necessary data from wow arena ladder
+                            "div.SortTable-body " +
+                                    "div.SortTable-row ")) {
+                        // skip random data I dont want
+                        if (counter < 4) {
+                            counter ++;
+                            continue;
+                        }
+                        // parse function test
+                /*String[] test = getName(row.text());
+                names[numNames] = test[2];
+                numNames++;*/
+
+                        //make new player in players array
+                        players[numPlayers] = makePlayer(row.text());
+                        numPlayers++;
+                    }
+
+                }
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
                 // Create table model for table1
                 DefaultTableModel tableModel = new DefaultTableModel();
 
@@ -73,9 +108,7 @@ public class MainFrame extends JFrame {
                     tableModel.addRow(rowData);
                 }
 
-                System.out.println(tableModel.getRowCount());
-                System.out.println(tableModel.getColumnCount());
-                testLabel.setText("Working");
+                testLabel.setText("Data Loaded");
                 table1.setModel(tableModel);
             }
         });
@@ -85,46 +118,6 @@ public class MainFrame extends JFrame {
     public static void main(String[] args) {
 
         // create main frame
-
-
-
-        final String url = "https://worldofwarcraft.com/en-us/game/pvp/leaderboards/3v3";
-
-        String[] names = new String[100];
-        int numPlayers = 0;
-        try {
-            // get raw html document
-            final Document document = Jsoup.connect(url).get();
-            // int to skip random data I dont want
-            int counter = 0;
-            for (Element row : document.select(
-
-                    // get necessary data from wow arena ladder
-                    "div.SortTable-body " +
-                            "div.SortTable-row ")) {
-                // skip random data I dont want
-                if (counter < 4) {
-                    counter ++;
-                    continue;
-                }
-                // parse function test
-                /*String[] test = getName(row.text());
-                names[numNames] = test[2];
-                numNames++;*/
-
-                //make new player in players array
-                players[numPlayers] = makePlayer(row.text());
-                numPlayers++;
-            }
-
-
-
-
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
 
         MainFrame frame = new MainFrame();
     }
