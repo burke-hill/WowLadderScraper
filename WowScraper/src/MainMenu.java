@@ -39,7 +39,4 @@ public class MainMenu extends JFrame {
         MainMenu frame = new MainMenu();
     }
 
-
-
-
 }

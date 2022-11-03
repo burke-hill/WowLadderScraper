@@ -2,11 +2,19 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.util.Date;
 
 import static java.lang.Integer.parseInt;
 
@@ -18,6 +26,7 @@ public class MainFrame extends JFrame {
     private JButton loadButton;
     private JLabel testLabel;
     private JButton mainMenuButton;
+    private JButton saveLadderButton;
     private JLabel TestLabel;
     private JButton avgButton;
     public static Player[] players = new Player[100];
@@ -118,6 +127,12 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 MainMenu frame = new MainMenu();
+            }
+        } );
+
+        saveLadderButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //String connectionUrl = ""
             }
         } );
     }
