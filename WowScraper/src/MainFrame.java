@@ -62,6 +62,24 @@ public class MainFrame extends JFrame {
                 final String url = "https://worldofwarcraft.com/en-us/game/pvp/leaderboards/3v3";
 
                 String[] names = new String[100];
+                DefaultTableModel tableModel = new DefaultTableModel();
+                Object rowData[] = new Object[7];
+                String[] columnNames = new String[7];
+
+                columnNames[0] = "Rank";
+                columnNames[1] = "Rating";
+                columnNames[2] = "Name";
+                columnNames[3] = "Level";
+                columnNames[4] = "Spec";
+                columnNames[5] = "Class";
+                columnNames[6] = "Realm";
+
+
+                // Add columns
+                for (int i=0; i<7; i++) {
+                    tableModel.addColumn(columnNames[i]);
+                }
+
                 int numPlayers = 0;
                 try {
                     // get raw html document
@@ -79,14 +97,23 @@ public class MainFrame extends JFrame {
                             continue;
                         }
                         // parse function test
-                /*String[] test = getName(row.text());
-                names[numNames] = test[2];
-                numNames++;*/
+                        /*String[] test = getName(row.text());
+                        names[numNames] = test[2];
+                        numNames++;*/
 
                         //make new player in players array
                         players[numPlayers] = makePlayer(row.text());
+                        rowData[0] = players[numPlayers].getRank();
+                        rowData[1] = players[numPlayers].getRating();
+                        rowData[2] = players[numPlayers].getName();
+                        rowData[3] = players[numPlayers].getLevel();
+                        rowData[4] = players[numPlayers].getSpec();
+                        rowData[5] = players[numPlayers].getWowClass();
+                        rowData[6] = players[numPlayers].getRealm();
+                        tableModel.addRow(rowData);
                         numPlayers++;
                     }
+
 
                 }
                 catch (Exception ex) {
@@ -94,37 +121,13 @@ public class MainFrame extends JFrame {
                 }
 
                 // Create table model for table1
-                DefaultTableModel tableModel = new DefaultTableModel();
-
-                // Create array of names to be used for columns
-                String[] columnNames = new String[7];
-                columnNames[0] = "Rank";
-                columnNames[1] = "Rating";
-                columnNames[2] = "Name";
-                columnNames[3] = "Level";
-                columnNames[4] = "Spec";
-                columnNames[5] = "Class";
-                columnNames[6] = "Realm";
 
 
-                // Add columns
-                for (int i=0; i<7; i++) {
-                    tableModel.addColumn(columnNames[i]);
-                }
+                // Create array of names to be used for columnn
 
                 // Create array for adding row to table
-                Object rowData[] = new Object[7];
 
-                for (int i=0; i<100; i++) {
-                    rowData[0] = players[i].getRank();
-                    rowData[1] = players[i].getRating();
-                    rowData[2] = players[i].getName();
-                    rowData[3] = players[i].getLevel();
-                    rowData[4] = players[i].getSpec();
-                    rowData[5] = players[i].getWowClass();
-                    rowData[6] = players[i].getRealm();
-                    tableModel.addRow(rowData);
-                }
+
 
                 testLabel.setText("Data Loaded");
                 table1.setModel(tableModel);
@@ -138,38 +141,7 @@ public class MainFrame extends JFrame {
             }
         } );
 
-        saveLadderButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
 
-                Connection connection = null;
-                Statement statement;
-
-                try {
-                    connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/arenaladder?" +
-                            "user=root&password=rootWIN123!");
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-                try {
-                    statement = connection.createStatement();
-                    statement.executeQuery("INSERT INTO ladderplayers\n" +
-                            "VALUES('1', '3000', 'Ventition', '60', 'Feral', 'Druid', 'Area 52', '2022-11-03');");
-                    statement.close();
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-
-            }
-        } );
-    }
-
-
-    public static void main(String[] args) {
-
-        // create main frame
-
-        MainFrame frame = new MainFrame();
     }
 
 
@@ -180,6 +152,8 @@ public class MainFrame extends JFrame {
         String[] split = rowString.split(" ");
         return new Player(parseInt(split[0]), parseInt(split[1]), split[2], parseInt(split[3]), split[4], split[5], split[6]);
     }
+
+
 
 
     public int averageRating(Player[] players) {

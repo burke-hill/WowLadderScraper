@@ -19,6 +19,8 @@ public class Player {
         this.realm = realm;
     }
 
+
+
     int getRank() {
         return this.rank;
     }
