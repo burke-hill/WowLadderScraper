@@ -141,8 +141,35 @@ public class MainFrame extends JFrame {
             }
         } );
 
+        saveLadderButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //String connectionUrl = ""
 
+                Connection connection = null;
+                Statement statement;
+
+                try {
+                    connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/arenaladder?" +
+                            "user=root&password=rootWIN123!");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    statement = connection.createStatement();
+                    statement.executeQuery("INSERT INTO ladderplayers\n" +
+                            "VALUES('1', '3000', 'Ventition', '60', 'Feral', 'Druid', 'Area 52', '2022-11-03');");
+                    statement.close();
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        } );
     }
+
+
+
 
 
 
